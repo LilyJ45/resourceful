@@ -4,6 +4,7 @@ function load(){
     //blank out feed div
     let feed_div = document.querySelector(".feed")
     feed_div.innerHTML = ""
+    reset_form()
 
     fetch("http://localhost:5000/home")
         .then(function(response){
@@ -20,10 +21,24 @@ function load_feed(post){
     let div = document.createElement("article")
     let regionh3 = document.createElement("h3")
     let postDescriptionp = document.createElement("p")
+    let deleteButton = document.createElement("p")
+    deleteButton.innerHTML = "delete"
+    let editButton = document.createElement("p")
+    editButton.innerHTML = "edit"
+
+    deleteButton.onclick = function(){
+        do_delete(post.id)
+    }
+
+    editButton.onclick = function(){
+        do_edit(post)
+    }
 
     feed_div.append(div)
     div.append(regionh3)
     div.append(postDescriptionp)
+    div.append(deleteButton)
+    div.append(editButton)
 
     regionh3.innerHTML = post.region
     postDescriptionp.innerHTML = post.post
@@ -54,9 +69,17 @@ function addNewPost(){
     let data = "region="+encodeURIComponent(region)
     data += "&post="+encodeURIComponent(post)
 
+    let submit_method = "POST"
+    const button_text = document.querySelector("#postSubmitButton").innerHTML
+    let url = "http://localhost:5000/home"
+    if (button_text == "SAVE"){
+        submit_method = "PUT"
+        url = "http://localhost:5000/home/" + editID
+    }
+
     //send to api
-    fetch("http://localhost:5000/home", {
-        method: "POST",
+    fetch(url, {
+        method: submit_method,
         body: data,
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
@@ -69,6 +92,38 @@ function addNewPost(){
         })
 
     //display results
+}
+
+function do_delete(id){
+    console.log("you are going to delete post: ", id)
+    let foo = confirm("Are you sure?") //THIS ISNT FULLY FUNCTIONAL YET< NEEDS AN IF STATEMENT< DONT DELETE IF THEY CANCEL!
+    console.log(foo)
+    fetch("http://localhost:5000/home/"+id, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+    })
+        .then(function(response){
+            console.log("Deleted")
+            load()
+        })
+}
+
+function do_edit(post){
+    console.log("you are going to edit post: ", post.id)
+    document.querySelector('#region').value = post.region
+    document.querySelector('#post').value = post.post
+
+    document.querySelector("#postSubmitButton").innerHTML = "SAVE"
+    editID = post.id
+}
+
+function reset_form(){
+    document.querySelector('#region').value = ""
+    document.querySelector('#post').value = ""
+
+    document.querySelector("#postSubmitButton").innerHTML = "SUBMIT"
 }
 
 let postButton = document.querySelector("#postSubmitButton")
