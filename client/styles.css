@@ -40,15 +40,16 @@ button {
     border-radius: 5px;
     padding: 5px 10px;
 }
-
+.feed {
+    width: 90%; /* Makes the feed 90% of the page width */
+}
 .feed article {
     background-color: rgba(164, 214, 94);
     color: white;                         
     border-radius: 5px;
     padding: 10px;
     margin: 5px;
-    width: 400px;
-    /*max-width: 400px;*/
+    overflow-wrap: break-word;
 }
 
 h2{
