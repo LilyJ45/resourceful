@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>ABSParents</title>
+</head>
+<header>
+    <img src="../static/images/ABSKids.png" alt="ABSImg">
+    <h1>Parents</h1>
+</header>
+<body>
+    <form>
+        <label for="region">Region:</label>
+        <select id="region">
+            <option value="Utah">Utah</option>
+            <option value="California">California</option>
+            <option value="North Carolina">North Carolina</option>
+            <option value="South Carolina">South Carolina</option>
+            <option value="Tennessee">Tennessee</option>
+        </select>
+        <label for="post">Post:</label>
+        <textarea id="post" rows="4"></textarea>
+        <button id ="postSubmitButton" type="button">Post</button>
+    </form>
+        <form>
+        <label for="regionFilter">Filter Feed By:</label>
+        <select id="regionFilter">
+            <option value="Utah">Utah</option>
+            <option value="California">California</option>
+            <option value="North Carolina">North Carolina</option>
+            <option value="South Carolina">South Carolina</option>
+            <option value="Tennessee">Tennessee</option>
+        </select>
+        <button id ="filterSubmitButton" type="button">Filter</button>
+    </form>
+    <h2>Feed:</h2>
+    <div class="feed"></div>
+    
+</body>
+<script src="./app.js"></script>
+</html>

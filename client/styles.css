@@ -1,0 +1,57 @@
+body {
+    background-color: rgba(0, 169, 224);
+    display: flex;              
+    flex-direction: column;     
+    align-items: center;        
+}
+
+h1 {
+    color: rgba(164, 214, 94);
+    font-size: 200px;
+    font-weight: bold;
+}
+
+header {
+    background-color: white;
+    border-radius: 10px;      
+    padding: 10px;
+    display: flex;     
+    align-items: center;        
+    gap: 10px;
+    max-height: 300px; 
+}
+
+form {
+    background-color: rgba(164, 214, 94); 
+    border-radius: 10px;                  
+    padding: 10px;
+    margin: 10px;
+    color: white;
+
+    display: flex;           
+    align-items: center; 
+    gap: 10px;               
+}
+
+button {
+    background-color: rgba(0, 169, 224);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.feed article {
+    background-color: rgba(164, 214, 94);
+    color: white;                         
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px;
+    width: 400px;
+    /*max-width: 400px;*/
+}
+
+h2{
+    color: white;
+    font-size: 50px;
+}
