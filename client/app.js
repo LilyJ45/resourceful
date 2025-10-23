@@ -19,6 +19,10 @@ function load(){
 function load_feed(post){
     let feed_div = document.querySelector(".feed")
     let div = document.createElement("article")
+
+    let titleh2 = document.createElement("h2")
+    let authorh4 = document.createElement("h4")
+    let datep = document.createElement("p")
     let regionh3 = document.createElement("h3")
     let postDescriptionp = document.createElement("p")
     let deleteButton = document.createElement("p")
@@ -35,11 +39,17 @@ function load_feed(post){
     }
 
     feed_div.append(div)
+    div.append(titleh2)
+    div.append(authorh4)
+    div.append(datep)
     div.append(regionh3)
     div.append(postDescriptionp)
     div.append(deleteButton)
     div.append(editButton)
 
+    titleh2.innerHTML = post.title
+    authorh4.innerHTML = post.author
+    datep.innerHTML = post.date
     regionh3.innerHTML = post.region
     postDescriptionp.innerHTML = post.post
 }
@@ -60,13 +70,19 @@ function load_regional_feed(region) {
 
 function addNewPost(){
     //get the form data
+    let date = document.querySelector('#date').value
+    let author = document.querySelector('#author').value
     let region = document.querySelector('#region').value
     console.log("The region is ", region)
+    let title = document.querySelector('#title').value
     let postInput = document.querySelector('#post')
     let post = postInput.value
 
     //get it ready to send to api
-    let data = "region="+encodeURIComponent(region)
+    let data = "date="+encodeURIComponent(date)
+    data += "&author="+encodeURIComponent(author)
+    data += "&region="+encodeURIComponent(region)
+    data += "&title="+encodeURIComponent(title)
     data += "&post="+encodeURIComponent(post)
 
     let submit_method = "POST"
@@ -96,24 +112,31 @@ function addNewPost(){
 
 function do_delete(id){
     console.log("you are going to delete post: ", id)
-    let foo = confirm("Are you sure?") //THIS ISNT FULLY FUNCTIONAL YET< NEEDS AN IF STATEMENT< DONT DELETE IF THEY CANCEL!
-    console.log(foo)
-    fetch("http://localhost:5000/home/"+id, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
-    })
+    
+    // confirm() returns 'true' if they click OK, and 'false' if they click Cancel
+    if (confirm("Are you sure?")) { 
+        fetch("http://localhost:5000/home/"+id, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        })
         .then(function(response){
             console.log("Deleted")
             load()
         })
+    } else {
+        console.log("Delete canceled")
+    }
 }
 
 function do_edit(post){
     console.log("you are going to edit post: ", post.id)
     document.querySelector('#region').value = post.region
     document.querySelector('#post').value = post.post
+    document.querySelector('#date').value = post.date
+    document.querySelector('#author').value = post.author
+    document.querySelector('#title').value = post.title
 
     document.querySelector("#postSubmitButton").innerHTML = "SAVE"
     editID = post.id
@@ -122,6 +145,10 @@ function do_edit(post){
 function reset_form(){
     document.querySelector('#region').value = ""
     document.querySelector('#post').value = ""
+    document.querySelector('#date').value = ""
+    document.querySelector('#author').value = ""
+    document.querySelector('#title').value = ""
+
 
     document.querySelector("#postSubmitButton").innerHTML = "SUBMIT"
 }

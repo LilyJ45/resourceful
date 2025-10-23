@@ -28,10 +28,17 @@ class DB:
             all.append(d)
         print ("the posts are", all)
         return all
+    
+    def readOneRecord(self, id):
+        self.cursor.execute("SELECT * FROM posts WHERE id = ?", [id])
+        row = self.cursor.fetchone()
+        if row:
+            return dict_factory(self.cursor, row)
+        return None
 
     def saveRecord(self, record):
-        data = [record["region"], record["post"]]
-        self.cursor.execute("INSERT INTO posts (region, post) VALUES (?, ?);", data)
+        data = [record["date"], record["author"], record["region"],record["title"], record["post"]]
+        self.cursor.execute("INSERT INTO posts (date, author, region, title, post) VALUES (?, ?, ?, ?, ?);", data)
         self.connection.commit()
 
     def deleteRecord(self, id): 
@@ -39,8 +46,8 @@ class DB:
         self.connection.commit()
 
     def editRecord(self, id, record):
-        data = [record["region"], record["post"], id]
-        self.cursor.execute("UPDATE posts SET region =?, post=? WHERE id = ?;", data)
+        data = [record["date"], record["author"], record["region"], record["title"], record["post"], id]
+        self.cursor.execute("UPDATE posts SET date =?, author=?, region =?, title =?, post=? WHERE id = ?;", data)
         self.connection.commit()
 
     def close(self):

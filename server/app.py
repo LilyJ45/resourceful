@@ -4,7 +4,7 @@ from db import DB
 
 app = Flask(__name__)
 
-@app.route("/posts/<int:id>", methods=["OPTIONS"])
+@app.route("/home/<int:id>", methods=["OPTIONS"])
 def do_preflight(id):
     return '', 204, {"Access-Control-Allow-Origin":"*", 
                      "Access-Control-Allow-Methods":"PUT, DELETE", 
@@ -16,11 +16,23 @@ def get_feed():
     feed = db.readAllRecords()
     return feed, {"Access-Control-Allow-Origin":"*"}
 
+@app.route("/home/<int:id>", methods=["GET"])
+def get_single_post(id):
+    db = DB("posts.db")
+    post = db.readOneRecord(id)
+    if post:
+        return post, 200, {"Access-Control-Allow-Origin":"*"}
+    else:
+        return {"error": "Post not found"}, 404, {"Access-Control-Allow-Origin":"*"}
+
 @app.route("/home", methods=["POST"])
 def create_post():
     db = DB("posts.db")
     print(request.form)
-    d = {"region": request.form['region'],
+    d = {"date": request.form['date'],
+         "author": request.form['author'],
+        "region": request.form['region'],
+        "title": request.form['title'],
         "post": request.form['post']
         }
     db.saveRecord(d)
@@ -30,7 +42,10 @@ def create_post():
 def edit_post(id):
     db = DB("posts.db")
     print(request.form)
-    d = {"region": request.form['region'],
+    d = {"date": request.form['date'],
+         "author": request.form['author'],
+        "region": request.form['region'],
+        "title": request.form['title'],
         "post": request.form['post']
         }
     db.editRecord(id, d)
