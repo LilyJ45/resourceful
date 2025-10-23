@@ -16,7 +16,7 @@ function load(){
 })
 }
 
-function load_feed(post){
+/*function load_feed(post){
     let feed_div = document.querySelector(".feed")
     let div = document.createElement("article")
 
@@ -52,6 +52,57 @@ function load_feed(post){
     datep.innerHTML = post.date
     regionh3.innerHTML = post.region
     postDescriptionp.innerHTML = post.post
+}*/
+
+function load_feed(post){
+    let feed_div = document.querySelector(".feed");
+    let div = document.createElement("article"); // This is the main card
+
+    let titleH2 = document.createElement("h2");
+    titleH2.innerHTML = post.title;
+
+    let infoDiv = document.createElement("div");
+    infoDiv.className = "post-info"; 
+
+    let authorP = document.createElement("p");
+    authorP.innerHTML = `By: ${post.author}`;
+    
+    let dateP = document.createElement("p");
+    dateP.innerHTML = post.date;
+    
+    let regionP = document.createElement("p");
+    regionP.innerHTML = `Region: ${post.region}`;
+
+    infoDiv.append(authorP);
+    infoDiv.append(dateP);
+    infoDiv.append(regionP);
+
+    let postDescriptionp = document.createElement("p");
+    postDescriptionp.innerHTML = post.post;
+
+    let controlsDiv = document.createElement("div");
+    controlsDiv.className = "post-controls"; 
+
+    let editButton = document.createElement("p");
+    editButton.innerHTML = "✏️";
+    editButton.onclick = function() {
+        do_edit(post);
+    };
+
+    let deleteButton = document.createElement("p");
+    deleteButton.innerHTML = "🗑️";
+    deleteButton.onclick = function() {
+        do_delete(post.id);
+    };
+
+    controlsDiv.append(editButton);
+    controlsDiv.append(deleteButton);
+
+    feed_div.append(div);
+    div.append(titleH2);
+    div.append(infoDiv);
+    div.append(postDescriptionp);
+    div.append(controlsDiv);
 }
 
 function load_regional_feed(region) {
