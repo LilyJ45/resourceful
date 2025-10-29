@@ -1,4 +1,5 @@
 console.log("connected")
+const url = "http://localhost:5000"
 
 function load(){
     //blank out feed div
@@ -6,7 +7,7 @@ function load(){
     feed_div.innerHTML = ""
     reset_form()
 
-    fetch("http://localhost:5000/home")
+    fetch(url + "/home")
         .then(function(response){
             response.json()
                 .then(function(data){
@@ -109,7 +110,7 @@ function load_regional_feed(region) {
     let feed_div = document.querySelector(".feed");
     feed_div.innerHTML = "";
 
-    fetch(`http://localhost:5000/home/region/${encodeURIComponent(region)}`)
+    fetch(url + `/home/region/${encodeURIComponent(region)}`)
         .then(function(response){
             response.json()
                 .then(function(data){
@@ -138,14 +139,14 @@ function addNewPost(){
 
     let submit_method = "POST"
     const button_text = document.querySelector("#postSubmitButton").innerHTML
-    let url = "http://localhost:5000/home"
+    let urladd = url + "/home"
     if (button_text == "SAVE"){
         submit_method = "PUT"
-        url = "http://localhost:5000/home/" + editID
+        urladd = url + "/home/" + editID
     }
 
     //send to api
-    fetch(url, {
+    fetch(urladd, {
         method: submit_method,
         body: data,
         headers: {
@@ -166,7 +167,7 @@ function do_delete(id){
     
     // confirm() returns 'true' if they click OK, and 'false' if they click Cancel
     if (confirm("Are you sure?")) { 
-        fetch("http://localhost:5000/home/"+id, {
+        fetch(url + "/home/"+id, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
