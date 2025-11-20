@@ -71,6 +71,6 @@ def not_found(error):
     "<p>The requested URL was not found on the server.</p>", 404
 
 def main():
-    app.run()
+    app.run(host='0.0.0.0')
 
 main()
