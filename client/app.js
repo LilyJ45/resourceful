@@ -1,5 +1,5 @@
 console.log("connected")
-const url = "http://lily.utahtech.rocks/"
+const url = "http://lily.utahtech.rocks"
 
 function load(){
     //blank out feed div
